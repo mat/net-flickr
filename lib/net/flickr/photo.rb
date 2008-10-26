@@ -203,6 +203,10 @@ module Net; class Flickr
     def source_url(size = :medium)
       suffix = SIZE_SUFFIX[size]
       
+      if (@farm.nil? || @server.nil? || @secret.nil?)
+        get_info
+      end
+
       case size
         when :medium
           return "http://farm#{@farm}.static.flickr.com/#{@server}/#{@id}_" +
@@ -275,12 +279,16 @@ module Net; class Flickr
     
     # Gets detailed information for this photo.
     def get_info
-      return @info_xml unless @info_xml.nil?
+      return @info_xml if @info_xml
 
       response = Net::Flickr.instance().request('flickr.photos.getInfo', :photo_id => @id, 
           :secret => @secret)
       
       @info_xml = response.at('photo')
+
+      @secret    = @info_xml[:secret]
+      @server    = @info_xml[:server]
+      @farm      = @info_xml[:farm]
 
       if @is_family.nil? || @is_friend.nil? || @is_public.nil?
         @is_family = @info_xml.at('visibility')[:isfamily] == '1'

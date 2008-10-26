@@ -51,4 +51,11 @@ describe Net::Flickr::Photo do
     p.geo.longitude.should == -117.188184
     p.geo.accuracy.should  == 16
   end
+
+  it "should be able to get the source url for a thumbnail" do
+    unsigned_flickr
+    url = 'http://farm3.static.flickr.com/2010/2373699805_e953d2173d_t.jpg'
+    p = Net::Flickr::Photo.new(PHOTO_W_TAGS)
+    p.source_url(:thumb).should == url
+  end
 end
