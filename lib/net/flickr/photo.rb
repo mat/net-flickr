@@ -145,6 +145,7 @@ module Net; class Flickr
     
     # Gets the URL of this photo's Flickr photo page.
     def page_url
+      parse_xml(get_info) unless @owner
       return "http://www.flickr.com/photos/#{@owner}/#{@id}"
     end
     
@@ -339,6 +340,10 @@ module Net; class Flickr
         @is_friend = photo_xml.at('visibility')[:isfriend] == '1'
         @is_family = photo_xml.at('visibility')[:isfamily] == '1'
         @info_xml  = photo_xml
+      end
+
+      if photo_xml.at('owner[@username]') || photo_xml.at('owner[@nsid]') 
+        @owner = photo_xml.at('owner')[:username] || photo_xml.at('owner')[:nsid]
       end
     end
     

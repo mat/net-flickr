@@ -58,4 +58,11 @@ describe Net::Flickr::Photo do
     p = Net::Flickr::Photo.new(PHOTO_W_TAGS)
     p.source_url(:thumb).should == url
   end
+
+  it "should be able to construct the page url" do
+    unsigned_flickr
+    url = 'http://www.flickr.com/photos/n8agrin/2373699805'
+    p = Net::Flickr::Photo.new(PHOTO_W_TAGS)
+    p.page_url.should == url
+  end
 end
