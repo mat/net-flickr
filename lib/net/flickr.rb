@@ -51,7 +51,7 @@ require 'flickr/person'
 require 'flickr/photo'
 require 'flickr/photos'
 require 'flickr/tag'
-require 'flickr/test'
+#require 'flickr/test'
 
 # Net::Flickr List classes
 require 'flickr/list' # must come first
