@@ -1,4 +1,5 @@
 require (File.join(File.dirname(__FILE__), '../spec_helper.rb'))
+require 'time'
 
 describe Net::Flickr::Photo do
   include FlickrGeneratorHelper
@@ -65,4 +66,26 @@ describe Net::Flickr::Photo do
     p = Net::Flickr::Photo.new(PHOTO_W_TAGS)
     p.page_url.should == url
   end
+
+  it "should fetch the correct posted date" do
+    unsigned_flickr
+    url = 'http://www.flickr.com/photos/n8agrin/2373699805'
+    p = Net::Flickr::Photo.new(PHOTO_W_TAGS)
+    p.posted.should == Time.at(1206896326)
+  end
+
+  it "should fetch the correct last-update (=modified) date" do
+    unsigned_flickr
+    url = 'http://www.flickr.com/photos/n8agrin/2373699805'
+    p = Net::Flickr::Photo.new(PHOTO_W_TAGS)
+    p.modified.should == Time.at(1207461704)
+  end
+
+  it "should fetch the correct taken date" do
+    unsigned_flickr
+    url = 'http://www.flickr.com/photos/n8agrin/2373699805'
+    p = Net::Flickr::Photo.new(PHOTO_W_TAGS)
+    p.taken.should == Time.parse('2008-03-28 21:11:13')
+  end
+
 end
